@@ -1,0 +1,63 @@
+.infos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  animation: slideUp 0.5s ease-out 0.2s both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.infos p {
+  margin: 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 1px solid #e9ecef;
+  padding: 16px 20px;
+  border-radius: 12px;
+  color: #495057;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.infos p:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-color: #bf273d;
+}
+
+.infos p svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.infos strong {
+  color: #212529;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+@media (max-width: 500px) {
+  .infos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .infos p {
+    flex-direction: column;
+  }
+}

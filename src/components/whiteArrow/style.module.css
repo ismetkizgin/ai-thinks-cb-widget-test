@@ -1,0 +1,19 @@
+.whiteArrow {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  bottom: 40px;
+  right: 100px;
+  z-index: -1;
+}
+
+.whiteArrowText {
+  position: absolute;
+  color: white;
+  user-select: none;
+  font-weight: 700;
+  bottom: 40px;
+  right: 190px;
+  text-align: left;
+  z-index: -1;
+}
