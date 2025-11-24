@@ -1,0 +1,62 @@
+name: deploy to test
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_push:
+    name: Build and Push
+    runs-on: ubuntu-latest
+    environment: test
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/ismetkizgin/ai-thinks-cb-widget-test:latest-dev
+          platforms: linux/amd64
+          build-args: |
+            VITE_WIDGET_API_URL=${{ vars.VITE_WIDGET_API_URL }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push
+    name: Deploy to Test
+    environment: test
+    steps:
+      - name: Deploy version
+        uses: fifsky/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          user: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: |
+            cd /home/ubuntu/admin 
+            docker compose pull 
+            docker compose up --force-recreate --build -d 
+            docker image prune -f
