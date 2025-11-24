@@ -38,11 +38,7 @@ jobs:
           tags: ghcr.io/ismetkizgin/ai-thinks-cb-widget-test:latest, ghcr.io/ismetkizgin/ai-thinks-cb-widget-test:${{ env.RELEASE_VERSION }}
           platforms: linux/amd64
           build-args: |
-            REACT_APP_AI_THINKS_CB_API_ENDPOINT=${{ vars.REACT_APP_AI_THINKS_CB_API_ENDPOINT }}
-            REACT_APP_GOOGLE_RECAPTCHA_KEY=${{ vars.REACT_APP_GOOGLE_RECAPTCHA_KEY }}
-            REACT_APP_AI_THINKS_CB_WEB_SOCKET_ENDPOINT=${{ vars.REACT_APP_AI_THINKS_CB_WEB_SOCKET_ENDPOINT }}
-            REACT_APP_AI_THINKS_CB_STORAGE_ENDPOINT=${{ vars.REACT_APP_AI_THINKS_CB_STORAGE_ENDPOINT }}
-            REACT_APP_AI_THINKS_CB_WEBHOOK_ENDPOINT=${{ vars.REACT_APP_AI_THINKS_CB_WEBHOOK_ENDPOINT }}
+            VITE_WIDGET_API_URL=${{ vars.VITE_WIDGET_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,22 +46,12 @@ jobs:
     environment: prod
     name: Deploy to Prod
     steps:
-      - name: Get Secrets
-        uses: bitwarden/sm-action@v2
-        with:
-          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
-          base_url: https://vault.bitwarden.com
-          secrets: |
-            ${{ secrets.SERVER_HOST }} > AI_THINKS_CB_SERVER_HOST
-            ${{ secrets.SERVER_USERNAME }} > AI_THINKS_CB_SERVER_USERNAME
-            ${{ secrets.SSH_PRIVATE_KEY }} > AI_THINKS_CB_SSH_PRIVATE_KEY
-
       - name: Deploy version
         uses: fifsky/ssh-action@master
         with:
-          host: ${{ env.AI_THINKS_CB_SERVER_HOST }}
-          user: ${{ env.AI_THINKS_CB_SERVER_USERNAME }}
-          key: ${{ env.AI_THINKS_CB_SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          user: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
             cd /home/ubuntu/widget-test-app
             docker compose pull 
