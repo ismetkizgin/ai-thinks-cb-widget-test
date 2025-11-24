@@ -56,7 +56,7 @@ jobs:
           user: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            cd /home/ubuntu/admin 
+            cd /home/ubuntu/widget-test-app
             docker compose pull 
             docker compose up --force-recreate --build -d 
             docker image prune -f
