@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/ismetkizgin/ai-thinks-cb-admin:latest, ghcr.io/ismetkizgin/ai-thinks-cb-admin:${{ env.RELEASE_VERSION }}
+          tags: ghcr.io/ismetkizgin/ai-thinks-cb-widget-test:latest, ghcr.io/ismetkizgin/ai-thinks-cb-widget-test:${{ env.RELEASE_VERSION }}
           platforms: linux/amd64
           build-args: |
             REACT_APP_AI_THINKS_CB_API_ENDPOINT=${{ vars.REACT_APP_AI_THINKS_CB_API_ENDPOINT }}
