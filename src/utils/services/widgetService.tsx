@@ -1,4 +1,4 @@
-import type { IWidgetSettings } from "@ai-thinks/react-widget";
+import type { IWidgetSettings } from "@aithinks/chatbot-react-widget";
 
 export class WidgetService {
   static async fetchWidgetSettings(
@@ -9,9 +9,9 @@ export class WidgetService {
       const url = `${apiUrl}/settings/${appId}`;
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
