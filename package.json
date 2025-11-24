@@ -1,13 +1,14 @@
 {
-  "name": "example-app",
+  "name": "ai-thinks-cb-widget-test",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release": "release-it"
   },
   "dependencies": {
     "@aithinks/chatbot-react-widget": "^1.0.3",
@@ -26,6 +27,28 @@
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "@release-it/conventional-changelog": "^10.0.2",
+    "release-it": "^19.0.6"
+  },
+  "release-it": {
+    "git": {
+      "requireBranch": "master",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": {
+          "name": "conventionalcommits"
+        },
+        "infile": "CHANGELOG.md"
+      }
+    }
   }
 }
