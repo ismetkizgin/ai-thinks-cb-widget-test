@@ -1,32 +1,32 @@
-import './App.css';
-import { Widget, type IWidgetSettings } from '@aithinks/chatbot-react-widget';
-import { useState, useEffect } from 'react';
-import { WidgetService } from './utils/services';
-import { Form } from './components/form';
-import { Logo } from './components/logo';
-import { Infos } from './components/infos';
-import { WhiteArrow } from './components/whiteArrow';
+import "./App.css";
+import { Widget, type IWidgetSettings } from "@aithinks/chatbot-react-widget";
+import { useState, useEffect } from "react";
+import { WidgetService } from "./utils/services";
+import { Form } from "./components/form";
+import { Logo } from "./components/logo";
+import { Infos } from "./components/infos";
+import { WhiteArrow } from "./components/whiteArrow";
 
 function App() {
-  const pathnameAppId = window.location.pathname.replace('/', '');
+  const pathnameAppId = window.location.pathname.replace("/", "");
   const [showWidget, setShowWidget] = useState(!!pathnameAppId);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [settings, setSettings] = useState<IWidgetSettings | null>(null);
-  const [appId, setAppId] = useState(pathnameAppId || '');
+  const [appId, setAppId] = useState(pathnameAppId || "");
 
-  const apiUrl = import.meta.env.VITE_WIDGET_API_URL;
+  const widgetMode = import.meta.env.VITE_WIDGET_MODE;
 
   useEffect(() => {
     const fetchSettings = async () => {
       if (!appId) return;
       setLoading(true);
       setError(null);
-      const data = await WidgetService.fetchWidgetSettings(apiUrl, appId);
+      const data = await WidgetService.fetchWidgetSettings(appId);
       if (data) {
         setSettings(data);
       } else {
-        setError('Geçersiz App ID veya sunucu hatası.');
+        setError("Geçersiz App ID veya sunucu hatası.");
         setShowWidget(false);
       }
       setLoading(false);
@@ -35,23 +35,23 @@ function App() {
     if (showWidget && appId) {
       fetchSettings();
     }
-  }, [appId, showWidget, apiUrl]);
+  }, [appId, showWidget]);
 
   const handleSubmit = async (e: React.FormEvent, newAppId: string) => {
     e.preventDefault();
     if (newAppId.trim()) {
       setAppId(newAppId);
-      window.history.pushState({}, '', `/${newAppId}`);
+      window.history.pushState({}, "", `/${newAppId}`);
       setShowWidget(true);
     }
   };
 
   const handleReturn = () => {
-    setAppId('');
+    setAppId("");
     setSettings(null);
     setShowWidget(false);
     setError(null);
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, "", "/");
   };
 
   return (
@@ -108,7 +108,7 @@ function App() {
       {!loading && settings && (
         <>
           <WhiteArrow botName={settings.botName} />
-          <Widget appId={appId} mode="dev" />
+          <Widget appId={appId} mode={widgetMode as "dev" | "prod"} />
         </>
       )}
     </div>

@@ -1,12 +1,12 @@
 import type { IWidgetSettings } from "@aithinks/chatbot-react-widget";
 
 export class WidgetService {
+  private static readonly API_URL = import.meta.env.VITE_WIDGET_API_URL;
   static async fetchWidgetSettings(
-    apiUrl: string,
     appId: string
   ): Promise<IWidgetSettings | null> {
     try {
-      const url = `${apiUrl}/settings/${appId}`;
+      const url = `${WidgetService.API_URL}/settings/${appId}`;
 
       const response = await fetch(url, {
         method: "GET",
