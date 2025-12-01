@@ -108,7 +108,11 @@ function App() {
       {!loading && settings && (
         <>
           <WhiteArrow botName={settings.botName} />
-          <Widget appId={appId} mode={widgetMode as "dev" | "prod"} />
+          <Widget
+            appId={appId}
+            mode={widgetMode as "dev" | "prod"}
+            defaultLanguage="tr"
+          />
         </>
       )}
     </div>
